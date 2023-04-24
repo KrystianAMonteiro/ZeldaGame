@@ -4,6 +4,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -14,32 +16,36 @@ import javax.swing.JFrame;
 import com.xhavasstudios.entitites.Entity;
 import com.xhavasstudios.entitites.Player;
 import com.xhavasstudios.graficos.Spritesheet;
+import com.xhavasstudios.world.World;
 
-public class Game extends Canvas implements Runnable{
+public class Game extends Canvas implements Runnable, KeyListener{
 
 	private static final long serialVersionUID = 1L;
 	public static JFrame frame;
 	private Thread thread;
 	private boolean isRunning = true;
-	private final int WIDTH = 240;
-	private final int HEIGHT = 160;
+	public static final int WIDTH = 240;
+	public static final int HEIGHT = 160;
 	private final int SCALE = 4;	
 	private BufferedImage image;
 	
-	public List<Entity> entities;
-	public Spritesheet spritesheet;
+	public static List<Entity> entities;
+	public static Spritesheet spritesheet;
+	public static World world;
+	public static Player player;
 
 	
 	public Game() {
+		addKeyListener(this);
 		this.setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
         initFrame();
         //inicializando objetos
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         entities = new ArrayList<Entity>();
-        spritesheet = new Spritesheet("/spritesheet.png");
-        
-        Player player = new Player(0, 0, 16, 16, spritesheet.getSprite(0, 16, 16, 16));
+        spritesheet = new Spritesheet("/spritesheet.png"); 
+        player = new Player(0, 0, 16, 16, spritesheet.getSprite(0, 16, 16, 16));
         entities.add(player);
+        world = new World("/map.png");
 	}
 	
 	public void initFrame() {
@@ -94,6 +100,7 @@ public class Game extends Canvas implements Runnable{
      // g.drawString("ola mundo", 16, 20);
  /*----------------------------------Render do jogo----------------------------------*/ 
      //   Graphics2D g2 = (Graphics2D) g;
+    world.render(g);
 	for(int i = 0; i < entities.size(); i ++) {
 			Entity e = entities.get(i);
 			e.render(g);
@@ -130,6 +137,47 @@ public class Game extends Canvas implements Runnable{
 		}
 		
 		stop();
+	}
+
+	
+	public void keyTyped(KeyEvent e) {
+
+
+	}
+	
+
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
+			player.right = true;
+		}else if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
+			player.left = true;
+		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
+			player.up = true;
+		}else if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
+			player.down = true;
+		}
+		
+	
+	}
+	
+
+	public void keyReleased(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
+			player.right = false;
+		}else if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
+			player.left = false;
+		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
+			player.up = false;
+		}else if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
+			player.down = false;
+		}
+		
+	
+		
 	}
 
 	

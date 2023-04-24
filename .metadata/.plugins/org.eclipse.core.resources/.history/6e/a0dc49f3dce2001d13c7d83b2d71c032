@@ -1,0 +1,23 @@
+package com.xhavasstudios.entitites;
+
+import java.awt.image.BufferedImage;
+
+public class Enemy extends Entity{
+	
+	private double speed = 1;
+	private int maskx = 8, masky = 8, maskw =10, maskh = 10;
+
+	public Enemy(int x, int y, int width, int height, BufferedImage sprite) {
+		super(x, y, width, height, sprite);
+		
+		public void tick(){
+			
+		}
+		
+		public void render(Graphics g) {
+			
+		}
+
+	}
+
+}

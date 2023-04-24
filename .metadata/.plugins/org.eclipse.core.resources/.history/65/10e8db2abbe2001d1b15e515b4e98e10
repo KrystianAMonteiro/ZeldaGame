@@ -1,0 +1,6 @@
+package com.xhavasstudios.world;
+
+public class FloorTile extends Tile{
+	
+
+}

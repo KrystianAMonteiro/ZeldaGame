@@ -1,0 +1,61 @@
+package com.xhavasstudios.entitites;
+
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
+import com.xhavasstudios.main.Game;
+
+public class Player extends Entity{
+	
+	public boolean right, up, left, down ;
+	public int down_dir = 0,up_dir =1;
+	public int dir = down_dir;
+    public double speed = 1.4;
+    
+    private int frames = 0;
+    private BufferedImage[] upPlayer;
+    private BufferedImage[] downPlayer;
+	
+	public Player(int x, int y, int width, int height, BufferedImage sprite) {
+		super(x, y, width, height, sprite);
+		
+		downPlayer = new BufferedImage[9];
+		upPlayer = new BufferedImage[9];
+		
+		for (int i =0; i < 9; i++) {
+		upPlayer [i] =  Game.spritesheet.getSprite(0+(i*16), 32, 16, 16);
+		}
+		
+		for (int i =0; i < 9; i++) {
+		downPlayer [i] =  Game.spritesheet.getSprite(0+(i*16), 16, 16, 16);
+		}
+		
+		
+	}
+	public void tick() {
+		if(right) {
+			x+=speed;
+		}
+		else if(left) {
+			x-=speed;
+		}
+		if(up) {
+			dir = up_dir;
+			y-=speed;
+		}
+		else if(down) {
+			dir = down_dir;
+			y+=speed;
+		}
+		
+	}
+	
+	public void render(Graphics g) {
+		if(dir == down_dir) {
+		    g.drawImage(downPlayer[0], this.getX(), this.getY(), null);
+		}else if(dir == up_dir) {
+			g.drawImage(upPlayer[0], this.getX(), this.getY(), null);
+		}
+	}
+
+}
